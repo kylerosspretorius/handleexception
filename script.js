@@ -112,15 +112,22 @@ setTimeout(typeWriter, 1200);
 })();
 
 // ===================================
+// Progress bar
+// ===================================
+const progressBar = document.getElementById('progress-bar');
+
+// ===================================
 // Navbar scroll + active link
 // ===================================
-const navbar = document.getElementById('navbar');
-
+const navbar      = document.getElementById('navbar');
 const scrollTopBtn = document.getElementById('scroll-top');
 
 window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
-    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (progressBar) progressBar.style.width = `${(scrollTop / docHeight) * 100}%`;
+    navbar.classList.toggle('scrolled', scrollTop > 20);
+    scrollTopBtn.classList.toggle('visible', scrollTop > 400);
     updateActiveLink();
 });
 
@@ -236,3 +243,39 @@ const statsObserver = new IntersectionObserver((entries) => {
 
 const statsSection = document.querySelector('.about-stats');
 if (statsSection) statsObserver.observe(statsSection);
+
+// ===================================
+// Copy email button
+// ===================================
+const copyBtn = document.getElementById('copy-email');
+if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText('kyleross.pretorius@gmail.com').then(() => {
+            const original = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+                copyBtn.innerHTML = original;
+                copyBtn.classList.remove('copied');
+            }, 2500);
+        });
+    });
+}
+
+// ===================================
+// Terminal 3D tilt on hover
+// ===================================
+const terminal = document.querySelector('.hero-terminal');
+if (terminal) {
+    terminal.addEventListener('mousemove', e => {
+        const rect = terminal.getBoundingClientRect();
+        const x    = (e.clientX - rect.left) / rect.width  - 0.5;
+        const y    = (e.clientY - rect.top)  / rect.height - 0.5;
+        terminal.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) scale(1.02)`;
+        terminal.style.boxShadow = `${-x * 20}px ${-y * 20}px 60px rgba(14,165,233,0.1), 0 24px 80px rgba(0,0,0,0.6)`;
+    });
+    terminal.addEventListener('mouseleave', () => {
+        terminal.style.transform = 'perspective(900px) rotateY(0) rotateX(0) scale(1)';
+        terminal.style.boxShadow = '';
+    });
+}
