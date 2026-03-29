@@ -288,11 +288,7 @@ section { padding: 100px 0; }
     background-size: 60px 60px;
 }
 
-.hero-content {
-    position: relative;
-    z-index: 1;
-    padding-top: var(--nav-height);
-}
+/* hero-content layout now defined in the animations block above */
 
 .badge {
     display: inline-flex;
@@ -1000,6 +996,13 @@ footer {
 
     .about-avatar { justify-content: center; }
 
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .hero-right { display: none; }
+
     .hero-ctas { flex-direction: column; }
     .hero-ctas .btn { justify-content: center; }
 
@@ -1009,6 +1012,220 @@ footer {
     .contact-links { grid-template-columns: 1fr; }
 
     .timeline-card-header { flex-direction: column; gap: 10px; }
+}
+
+/* ===================================
+   Particles Canvas
+   =================================== */
+#particles-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ===================================
+   Typewriter
+   =================================== */
+#typewriter-text {
+    color: var(--accent);
+}
+
+.typewriter-cursor {
+    color: var(--accent);
+    font-weight: 300;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* ===================================
+   Hero two-column layout
+   =================================== */
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding-top: var(--nav-height);
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 64px;
+    align-items: center;
+}
+
+.hero-left { display: flex; flex-direction: column; }
+
+/* ===================================
+   Terminal widget
+   =================================== */
+.hero-terminal {
+    background: rgba(10, 15, 30, 0.85);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    border-radius: 14px;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 60px rgba(14,165,233,0.06);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.terminal-header {
+    background: rgba(255,255,255,0.04);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.terminal-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+}
+
+.terminal-dot--red    { background: #ff5f57; }
+.terminal-dot--yellow { background: #febc2e; }
+.terminal-dot--green  { background: #28c840; }
+
+.terminal-title {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 10px;
+    letter-spacing: 0.02em;
+}
+
+.terminal-body {
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-line { line-height: 1.75; }
+.t-space       { height: 8px; }
+
+.t-prompt { color: #28c840;     margin-right: 10px; }
+.t-cmd    { color: #38bdf8; }
+.t-output { color: var(--text-secondary); padding-left: 20px; }
+.t-indent { padding-left: 20px; color: var(--text-secondary); }
+.t-key    { color: #c084fc; }
+
+.t-cursor {
+    color: var(--accent);
+    animation: blink 1s step-end infinite;
+}
+
+/* ===================================
+   Tech logo marquee
+   =================================== */
+.tech-marquee {
+    overflow: hidden;
+    margin-bottom: 56px;
+    padding: 16px 0;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.tech-marquee-track {
+    display: flex;
+    gap: 44px;
+    align-items: center;
+    width: max-content;
+    animation: marquee 22s linear infinite;
+}
+
+.tech-marquee-track i {
+    font-size: 42px;
+    opacity: 0.55;
+    transition: opacity 0.25s, transform 0.25s;
+    cursor: default;
+}
+
+.tech-marquee-track i:hover {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.15);
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+/* ===================================
+   Devicon icons inside skill tags
+   =================================== */
+.tag i {
+    font-size: 15px;
+    margin-right: 6px;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+/* ===================================
+   Featured card glow animation
+   =================================== */
+@keyframes card-glow {
+    0%, 100% {
+        border-color: rgba(14, 165, 233, 0.2);
+        box-shadow: 0 0 20px rgba(14, 165, 233, 0.04);
+    }
+    50% {
+        border-color: rgba(14, 165, 233, 0.55);
+        box-shadow: 0 0 50px rgba(14, 165, 233, 0.14), 0 0 100px rgba(99, 102, 241, 0.06);
+    }
+}
+
+.timeline-card.featured {
+    animation: card-glow 3.5s ease-in-out infinite;
+}
+
+.timeline-card.featured:hover {
+    animation: none;
+    border-color: rgba(14, 165, 233, 0.55);
+    box-shadow: 0 0 50px rgba(14, 165, 233, 0.15);
+}
+
+/* ===================================
+   Scroll to Top Button
+   =================================== */
+#scroll-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 99;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-accent);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: var(--transition);
+    pointer-events: none;
+}
+
+#scroll-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+#scroll-top:hover {
+    background: var(--accent-glow);
+    box-shadow: 0 4px 20px rgba(14, 165, 233, 0.2);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 480px) {

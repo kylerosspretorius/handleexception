@@ -1,11 +1,131 @@
 // ===================================
+// Typewriter effect
+// ===================================
+const titles = [
+    'Senior PHP Developer',
+    'DevOps Engineer',
+    'AWS Solutions Architect',
+    'Technical Lead',
+    'Laravel & Symfony Expert'
+];
+
+const typewriterEl = document.getElementById('typewriter-text');
+let titleIndex  = 0;
+let charIndex   = 0;
+let isDeleting  = false;
+
+function typeWriter() {
+    const current = titles[titleIndex];
+
+    if (isDeleting) {
+        typewriterEl.textContent = current.slice(0, --charIndex);
+    } else {
+        typewriterEl.textContent = current.slice(0, ++charIndex);
+    }
+
+    let delay = isDeleting ? 50 : 90;
+
+    if (!isDeleting && charIndex === current.length) {
+        delay = 2000;
+        isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        titleIndex = (titleIndex + 1) % titles.length;
+        delay = 400;
+    }
+
+    setTimeout(typeWriter, delay);
+}
+
+setTimeout(typeWriter, 1200);
+
+// ===================================
+// Network particle canvas
+// ===================================
+(function initParticles() {
+    const canvas = document.getElementById('particles-canvas');
+    if (!canvas) return;
+    const ctx    = canvas.getContext('2d');
+
+    const COUNT    = 70;
+    const MAX_DIST = 140;
+    const C        = [14, 165, 233];
+    let W, H, particles;
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    function resize() {
+        W = canvas.width  = canvas.parentElement.offsetWidth;
+        H = canvas.height = canvas.parentElement.offsetHeight;
+    }
+
+    function mkParticle() {
+        return {
+            x: rand(0, W), y: rand(0, H),
+            vx: rand(-0.35, 0.35),
+            vy: rand(-0.35, 0.35),
+            r: rand(1.5, 3.2)
+        };
+    }
+
+    function init() { resize(); particles = Array.from({ length: COUNT }, mkParticle); }
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Draw connecting lines between nearby particles
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx   = particles[i].x - particles[j].x;
+                const dy   = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < MAX_DIST) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(${C},${(1 - dist / MAX_DIST) * 0.35})`;
+                    ctx.lineWidth   = 0.8;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Draw nodes
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${C}, 0.7)`;
+            ctx.fill();
+
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > W) p.vx *= -1;
+            if (p.y < 0 || p.y > H) p.vy *= -1;
+        });
+
+        requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', init);
+    init();
+    draw();
+})();
+
+// ===================================
 // Navbar scroll + active link
 // ===================================
 const navbar = document.getElementById('navbar');
 
+const scrollTopBtn = document.getElementById('scroll-top');
+
 window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 20);
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
     updateActiveLink();
+});
+
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 // ===================================
