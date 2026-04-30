@@ -6,19 +6,19 @@
     <meta name="description" content="Kyle Pretorius - Senior PHP Developer & DevOps Engineer. 15+ years experience, AWS Certified, Laravel & Symfony expert based in London.">
     <meta property="og:title" content="Kyle Pretorius | Senior PHP Developer &amp; DevOps">
     <meta property="og:description" content="15+ years building scalable web apps and cloud infrastructure. AWS Certified Solutions Architect. Available for senior roles and freelance work.">
-    <meta property="og:image" content="https://handleexception.com/1671623566135.jpg">
+    <meta property="og:image" content="https://handleexception.com/images/profile.jpg">
     <meta property="og:url" content="https://handleexception.com">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Kyle Pretorius | Senior PHP Developer &amp; DevOps">
     <meta name="twitter:description" content="15+ years building scalable web apps and cloud infrastructure. AWS Certified. London, UK.">
-    <meta name="twitter:image" content="https://handleexception.com/1671623566135.jpg">
+    <meta name="twitter:image" content="https://handleexception.com/images/profile.jpg">
     <title>Kyle Pretorius | Senior PHP Developer &amp; DevOps</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body>
 
@@ -35,8 +35,9 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="{{ route('invoices.index') }}" class="nav-link nav-link--accent">Invoices</a></li>
             </ul>
-            <a href="CV-Kyle-Pretorius-2025.pdf" download class="btn-nav">Download CV</a>
+            <a href="{{ asset('CV-Kyle-Pretorius-2025.pdf') }}" download class="btn-nav">Download CV</a>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
             </button>
@@ -122,7 +123,7 @@
                 <div class="about-avatar fade-in">
                     <div class="avatar-outer">
                         <div class="avatar-wrapper">
-                            <img src="1671623566135.jpg" alt="Kyle Pretorius" class="avatar-photo">
+                            <img src="{{ asset('images/profile.jpg') }}" alt="Kyle Pretorius" class="avatar-photo">
                         </div>
                         <div class="avatar-ring"></div>
                     </div>
@@ -185,7 +186,6 @@
                     <i class="devicon-redis-plain colored" title="Redis"></i>
                     <i class="devicon-linux-plain colored" title="Linux"></i>
                     <i class="devicon-github-original colored" title="GitHub"></i>
-                    <!-- duplicate for seamless loop -->
                     <i class="devicon-php-plain colored" title="PHP"></i>
                     <i class="devicon-laravel-original colored" title="Laravel"></i>
                     <i class="devicon-symfony-original colored" title="Symfony"></i>
@@ -285,7 +285,6 @@
                 <h2>What I Can Build For You</h2>
             </div>
             <div class="services-grid">
-
                 <div class="service-card fade-in">
                     <div class="service-icon service-icon--blue">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -293,7 +292,6 @@
                     <h3>PHP &amp; Laravel Development</h3>
                     <p>Custom web applications, REST APIs, and backend systems built with modern PHP and Laravel. Clean, tested, and ready to scale.</p>
                 </div>
-
                 <div class="service-card fade-in">
                     <div class="service-icon service-icon--orange">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
@@ -301,15 +299,13 @@
                     <h3>AWS Infrastructure &amp; Architecture</h3>
                     <p>Cloud architecture design, serverless deployments, and infrastructure-as-code using Terraform and CloudFormation.</p>
                 </div>
-
                 <div class="service-card fade-in">
                     <div class="service-icon service-icon--purple">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
                     </div>
                     <h3>DevOps &amp; CI/CD</h3>
-                    <p>Pipeline setup, Kubernetes clusters, Docker containerisation, and automated deployment workflows that ship code safely and fast.</p>
+                    <p>Pipeline setup, Kubernetes clusters, Docker containerisation, and automated deployment workflows.</p>
                 </div>
-
                 <div class="service-card fade-in">
                     <div class="service-icon service-icon--green">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"/><circle cx="17" cy="7" r="5"/></svg>
@@ -317,7 +313,6 @@
                     <h3>Legacy Code Refactoring</h3>
                     <p>Modernising older codebases, improving performance, and migrating to current frameworks without disrupting live systems.</p>
                 </div>
-
                 <div class="service-card fade-in">
                     <div class="service-icon service-icon--blue">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -325,7 +320,6 @@
                     <h3>Serverless Architecture</h3>
                     <p>Event-driven systems and scalable microservices on AWS Lambda, SQS, and Aurora — designed for high throughput and low cost.</p>
                 </div>
-
                 <div class="service-card fade-in">
                     <div class="service-icon service-icon--orange">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
@@ -333,7 +327,6 @@
                     <h3>REST API Design &amp; Development</h3>
                     <p>PSR-4 compliant, well-documented APIs and reusable SDKs built for scale, reliability, and ease of integration.</p>
                 </div>
-
             </div>
         </div>
     </section>
@@ -346,7 +339,6 @@
                 <h2>Work History</h2>
             </div>
             <div class="timeline">
-
                 <div class="timeline-item fade-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-date">Apr 2023 &mdash; Present</div>
@@ -374,7 +366,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="timeline-item fade-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-date">May 2021 &mdash; Mar 2023</div>
@@ -403,7 +394,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="timeline-item fade-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-date">Nov 2020 &mdash; May 2021</div>
@@ -428,7 +418,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="timeline-item fade-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-date">Aug 2016 &mdash; Nov 2020</div>
@@ -457,7 +446,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="timeline-item fade-in">
                     <div class="timeline-dot"></div>
                     <div class="timeline-date">Sep 2012 &mdash; Aug 2016</div>
@@ -484,7 +472,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="timeline-item fade-in">
                     <div class="timeline-dot timeline-dot--muted"></div>
                     <div class="timeline-date">2011 &mdash; 2012</div>
@@ -506,7 +493,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -519,7 +505,6 @@
                 <h2>Project Highlights</h2>
             </div>
             <div class="projects-grid">
-
                 <div class="project-card fade-in">
                     <div class="project-header">
                         <div class="project-icons">
@@ -544,7 +529,6 @@
                         <span class="tag tag--sm">Redis</span>
                     </div>
                 </div>
-
                 <div class="project-card fade-in">
                     <div class="project-header">
                         <div class="project-icons">
@@ -569,7 +553,6 @@
                         <span class="tag tag--sm">AWS</span>
                     </div>
                 </div>
-
                 <div class="project-card fade-in">
                     <div class="project-header">
                         <div class="project-icons">
@@ -594,7 +577,6 @@
                         <span class="tag tag--sm">CI/CD</span>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -699,7 +681,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                         Copy Email
                     </button>
-                    <a href="CV-Kyle-Pretorius-2025.pdf" download class="btn btn-outline btn-lg">Download CV</a>
+                    <a href="{{ asset('CV-Kyle-Pretorius-2025.pdf') }}" download class="btn btn-outline btn-lg">Download CV</a>
                 </div>
             </div>
         </div>
@@ -711,7 +693,7 @@
             <div class="footer-inner">
                 <span class="footer-logo"><span>&lt;</span>KP<span>/&gt;</span></span>
                 <p class="footer-text">Kyle Pretorius &middot; Senior PHP Developer &amp; DevOps Engineer</p>
-                <p class="footer-copy">&copy; 2025 handleexception.com</p>
+                <p class="footer-copy">&copy; {{ date('Y') }} handleexception.com</p>
             </div>
         </div>
     </footer>
@@ -720,6 +702,6 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
     </button>
 
-    <script src="script.js"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
