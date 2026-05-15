@@ -48,7 +48,7 @@ fi
 # Deploy (runs on every call, including after --setup)
 # ---------------------------------------------------------------------------
 echo "==> Pulling latest code"
-$SSH "cd $APP_DIR && git pull"
+$SSH "ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null; cd $APP_DIR && git pull"
 
 echo "==> Building and starting all containers"
 $SSH "cd $APP_DIR && $COMPOSE up -d --build"
