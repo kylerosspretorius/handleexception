@@ -1,10 +1,11 @@
-@extends('layouts.invoice')
+@extends('layouts.dashboard')
 @section('title', $invoice->invoice_number)
+@section('nav_section', 'Invoices')
 
 @section('content')
 <div class="flex items-start justify-between mb-8 gap-4">
     <div>
-        <a href="{{ route('invoices.index') }}" class="text-slate-400 hover:text-white text-sm flex items-center gap-2 w-fit transition-colors mb-4">
+        <a href="{{ route('dashboard.invoices.index') }}" class="text-slate-400 hover:text-white text-sm flex items-center gap-2 w-fit transition-colors mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
             Back to invoices
         </a>
@@ -12,7 +13,7 @@
         <p class="text-slate-400 text-sm mt-1">Created {{ $invoice->created_at->format('d M Y') }}</p>
     </div>
     @if($invoice->pdf_s3_key)
-        <a href="{{ route('invoices.download', $invoice) }}"
+        <a href="{{ route('dashboard.invoices.download', $invoice) }}" target="_blank" rel="noopener"
            class="btn-primary px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download PDF
@@ -24,6 +25,9 @@
     <div class="lg:col-span-2 space-y-6">
 
         <div class="bg-bg-card border border-white/[0.07] rounded-2xl p-6">
+            @if($logoUrl)
+                <img src="{{ $logoUrl }}" alt="Logo" class="max-h-14 max-w-[160px] object-contain mb-5">
+            @endif
             <div class="grid grid-cols-2 gap-6">
                 <div>
                     <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">From</p>

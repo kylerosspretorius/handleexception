@@ -30,7 +30,7 @@ class PdfService
     private function getLogoAsBase64(string $s3Key): ?string
     {
         try {
-            $content = Storage::disk('s3')->get($s3Key);
+            $content = Storage::disk(config('filesystems.default'))->get($s3Key);
             $extension = strtolower(pathinfo($s3Key, PATHINFO_EXTENSION));
             $mime = match ($extension) {
                 'jpg', 'jpeg' => 'image/jpeg',

@@ -1,13 +1,16 @@
+name: handleexception
+
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    image: handleexception_app:latest
     container_name: handleexception_app
     restart: unless-stopped
     volumes:
       - .:/var/www/html
-      - /var/www/html/vendor
+      - handleexception_vendor:/var/www/html/vendor
     environment:
       - PHP_OPCACHE_ENABLE=0
     networks:
@@ -41,13 +44,15 @@ services:
       MYSQL_USER: ${DB_USERNAME:-invoice_user}
       MYSQL_PASSWORD: ${DB_PASSWORD:-invoice_pass}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - handleexception_mysql_data:/var/lib/mysql
     networks:
       - handleexception
 
 networks:
   handleexception:
+    name: handleexception_network
     driver: bridge
 
 volumes:
-  mysql_data:
+  handleexception_mysql_data:
+  handleexception_vendor:

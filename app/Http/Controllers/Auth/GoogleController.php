@@ -28,8 +28,8 @@ class GoogleController extends Controller
             ]
         );
 
-        Auth::login($user, remember: true);
+        Auth::login($user);
 
-        return redirect()->route('invoices.index');
+        return redirect()->route('dashboard.index');
     }
 }

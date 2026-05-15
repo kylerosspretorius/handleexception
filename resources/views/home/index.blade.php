@@ -18,7 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-small.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}?v={{ filemtime(public_path('css/styles.css')) }}">
 </head>
 <body>
 
@@ -27,7 +28,7 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#hero" class="nav-logo"><span>&lt;</span>KP<span>/&gt;</span></a>
+            <a href="#hero" class="nav-logo"><img src="{{ asset('images/logo_transparent_100px.png') }}" alt="HandleException"></a>
             <ul class="nav-links" id="nav-links">
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
@@ -35,9 +36,15 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li><a href="{{ route('invoices.index') }}" class="nav-link nav-link--accent">Invoices</a></li>
+                @auth
+                <li><a href="{{ route('dashboard.index') }}" class="nav-link nav-link--accent">Dashboard</a></li>
+                @endauth
             </ul>
-            <a href="{{ asset('CV-Kyle-Pretorius-2025.pdf') }}" download class="btn-nav">Download CV</a>
+            @guest
+                <a href="{{ route('auth.google') }}" class="btn-nav">Sign in</a>
+            @else
+                <a href="{{ asset('CV-Kyle-Pretorius-2025.pdf') }}" download class="btn-nav">Download CV</a>
+            @endguest
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
             </button>
@@ -691,7 +698,7 @@
     <footer>
         <div class="container">
             <div class="footer-inner">
-                <span class="footer-logo"><span>&lt;</span>KP<span>/&gt;</span></span>
+                <img src="{{ asset('images/logo_transparent_100px.png') }}" alt="HandleException">
                 <p class="footer-text">Kyle Pretorius &middot; Senior PHP Developer &amp; DevOps Engineer</p>
                 <p class="footer-copy">&copy; {{ date('Y') }} handleexception.com</p>
             </div>

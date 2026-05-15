@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Invoices') — handleexception.com</title>
+    <title>@yield('title', 'Dashboard') — handleexception.com</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -46,18 +46,20 @@
             border: 1px solid rgba(255,255,255,0.07);
             color: #f1f5f9;
             border-radius: 8px;
-            padding: 10px 14px;
+            padding: 5px 0 5px 10px !important;
             width: 100%;
             outline: none;
+            font-size: 0.8125rem;
             transition: border-color 0.2s;
         }
         input:focus, textarea:focus, select:focus {
             border-color: rgba(14,165,233,0.5);
         }
         input::placeholder, textarea::placeholder { color: #475569; }
-        label { color: #94a3b8; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+        label { color: #94a3b8; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 6px; }
         .flash-success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #34d399; }
         .flash-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #f87171; }
+        [x-cloak] { display: none !important; }
     </style>
     @stack('head')
 </head>
@@ -66,9 +68,13 @@
     <nav class="border-b border-white/[0.07] bg-bg-secondary/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-6">
-                <a href="{{ route('home') }}" class="font-mono text-accent text-lg font-semibold">&lt;KP/&gt;</a>
+                <a href="{{ route('home') }}"><img src="{{ asset('images/logo_transparent_100px.png') }}" alt="HandleException" style="height:100px;width:auto;display:block;"></a>
                 <span class="text-white/20">/</span>
-                <a href="{{ route('invoices.index') }}" class="text-slate-300 hover:text-white transition-colors text-sm font-medium">Invoices</a>
+                <a href="{{ route('dashboard.index') }}" class="text-slate-300 hover:text-white transition-colors text-sm font-medium">Dashboard</a>
+                @hasSection('nav_section')
+                    <span class="text-white/20">/</span>
+                    <span class="text-slate-400 text-sm">@yield('nav_section')</span>
+                @endif
             </div>
             <div class="flex items-center gap-4">
                 @auth

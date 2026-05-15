@@ -31,8 +31,21 @@ class InvoiceController extends Controller
     {
         $user = Auth::user();
         $nextNumber = Invoice::generateNumber($user->id);
+        $logoUrl = $this->resolveLogoUrl($user->logo_s3_key);
 
-        return view('invoices.create', compact('user', 'nextNumber'));
+        return view('invoices.create', compact('user', 'nextNumber', 'logoUrl'));
+    }
+
+    public function copy(Invoice $invoice): View
+    {
+        $this->authorizeInvoice($invoice);
+        $invoice->load('items');
+
+        $user = Auth::user();
+        $nextNumber = Invoice::generateNumber($user->id);
+        $logoUrl = $this->resolveLogoUrl($user->logo_s3_key);
+
+        return view('invoices.create', compact('user', 'nextNumber', 'invoice', 'logoUrl'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -65,10 +78,12 @@ class InvoiceController extends Controller
 
         $user = Auth::user();
 
-        // Handle logo upload
-        $logoKey = $user->logo_s3_key;
+        // Handle logo upload — only reuse saved key if the file actually exists on the current disk
+        $logoKey = $user->logo_s3_key && $this->storageService->exists($user->logo_s3_key)
+            ? $user->logo_s3_key
+            : null;
         if ($request->hasFile('logo')) {
-            $logoKey = $this->storageService->uploadLogo($user->id, $request->file('logo'));
+            $logoKey = $this->storageService->uploadLogo($user, $request->file('logo'));
             $user->update(['logo_s3_key' => $logoKey]);
         }
 
@@ -104,7 +119,7 @@ class InvoiceController extends Controller
 
         // Generate and store PDF
         $pdfContent = $this->pdfService->generate($invoice);
-        $pdfKey = $this->storageService->uploadPdf($user->id, $pdfContent);
+        $pdfKey = $this->storageService->uploadPdf($user, $pdfContent);
         $invoice->update(['pdf_s3_key' => $pdfKey]);
 
         // Save company defaults back to user profile
@@ -117,7 +132,7 @@ class InvoiceController extends Controller
             'default_currency' => $validated['currency'],
         ]);
 
-        return redirect()->route('invoices.index')
+        return redirect()->route('dashboard.invoices.index')
             ->with('success', "Invoice {$invoice->invoice_number} created successfully.");
     }
 
@@ -125,8 +140,9 @@ class InvoiceController extends Controller
     {
         $this->authorizeInvoice($invoice);
         $invoice->load('items');
+        $logoUrl = $this->resolveLogoUrl($invoice->logo_s3_key);
 
-        return view('invoices.show', compact('invoice'));
+        return view('invoices.show', compact('invoice', 'logoUrl'));
     }
 
     public function download(Invoice $invoice): RedirectResponse
@@ -158,5 +174,14 @@ class InvoiceController extends Controller
     private function authorizeInvoice(Invoice $invoice): void
     {
         abort_unless($invoice->user_id === Auth::id(), 403);
+    }
+
+    private function resolveLogoUrl(?string $key): ?string
+    {
+        if (!$key || !$this->storageService->exists($key)) {
+            return null;
+        }
+
+        return $this->storageService->getDownloadUrl($key);
     }
 }

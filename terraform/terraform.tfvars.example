@@ -1,0 +1,7 @@
+aws_region        = "eu-west-2"
+domain            = "handleexception.com"
+subdomain         = "dashboard"
+s3_bucket_name    = "handleexception-customer-data"
+ec2_instance_type = "t2.micro"               # free-tier eligible
+ssh_allowed_cidr  = "YOUR_HOME_IP/32"        # e.g. "203.0.113.42/32"
+ssh_public_key    = "ssh-rsa AAAA..."        # contents of ~/.ssh/id_rsa.pub

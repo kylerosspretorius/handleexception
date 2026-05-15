@@ -2,36 +2,54 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class StorageService
 {
-    public function uploadPdf(int $userId, string $pdfContent): string
+    public function uploadPdf(User $user, string $pdfContent): string
     {
-        $key = "invoices/{$userId}/" . Str::uuid() . '.pdf';
-        Storage::disk('s3')->put($key, $pdfContent, 'private');
+        $key = $this->userFolder($user) . '/invoices/' . Str::uuid() . '.pdf';
+        $this->disk()->put($key, $pdfContent);
 
         return $key;
     }
 
-    public function uploadLogo(int $userId, UploadedFile $file): string
+    public function uploadLogo(User $user, UploadedFile $file): string
     {
-        $extension = strtolower($file->getClientOriginalExtension());
-        $key = "logos/{$userId}/logo.{$extension}";
-        Storage::disk('s3')->put($key, file_get_contents($file->getRealPath()), 'private');
+        $ext = strtolower($file->getClientOriginalExtension());
+        $key = $this->userFolder($user) . '/logos/logo.' . $ext;
+        $this->disk()->put($key, file_get_contents($file->getRealPath()));
 
         return $key;
     }
 
     public function getDownloadUrl(string $key, int $minutes = 30): string
     {
-        return Storage::disk('s3')->temporaryUrl($key, now()->addMinutes($minutes));
+        return $this->disk()->temporaryUrl($key, now()->addMinutes($minutes));
+    }
+
+    public function exists(string $key): bool
+    {
+        return $this->disk()->exists($key);
     }
 
     public function delete(string $key): void
     {
-        Storage::disk('s3')->delete($key);
+        $this->disk()->delete($key);
+    }
+
+    private function disk(): \Illuminate\Contracts\Filesystem\Filesystem
+    {
+        return Storage::disk(config('filesystems.default'));
+    }
+
+    private function userFolder(User $user): string
+    {
+        $slug = Str::slug($user->name);
+
+        return $slug ?: 'user-' . $user->id;
     }
 }

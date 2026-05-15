@@ -1,5 +1,6 @@
-@extends('layouts.invoice')
+@extends('layouts.dashboard')
 @section('title', 'My Invoices')
+@section('nav_section', 'Invoices')
 
 @section('content')
 <div class="flex items-center justify-between mb-8">
@@ -7,7 +8,7 @@
         <h1 class="font-heading text-2xl font-semibold text-white">My Invoices</h1>
         <p class="text-slate-400 text-sm mt-1">{{ $invoices->total() }} invoice{{ $invoices->total() !== 1 ? 's' : '' }}</p>
     </div>
-    <a href="{{ route('invoices.create') }}" class="btn-primary px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+    <a href="{{ route('dashboard.invoices.create') }}" class="btn-primary px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
         New Invoice
     </a>
@@ -20,7 +21,7 @@
         </div>
         <h3 class="font-heading text-lg font-semibold text-white mb-2">No invoices yet</h3>
         <p class="text-slate-400 text-sm mb-6">Create your first invoice and it will appear here.</p>
-        <a href="{{ route('invoices.create') }}" class="btn-primary px-6 py-2.5 rounded-xl text-sm font-medium inline-flex items-center gap-2">
+        <a href="{{ route('dashboard.invoices.create') }}" class="btn-primary px-6 py-2.5 rounded-xl text-sm font-medium inline-flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Create Invoice
         </a>
@@ -43,7 +44,7 @@
                 @foreach($invoices as $invoice)
                 <tr class="hover:bg-bg-card-hover transition-colors">
                     <td class="px-6 py-4">
-                        <a href="{{ route('invoices.show', $invoice) }}" class="font-mono text-accent hover:text-white transition-colors text-sm">
+                        <a href="{{ route('dashboard.invoices.show', $invoice) }}" class="font-mono text-accent hover:text-white transition-colors text-sm">
                             {{ $invoice->invoice_number }}
                         </a>
                     </td>
@@ -69,13 +70,17 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center justify-end gap-2">
+                            <a href="{{ route('dashboard.invoices.copy', $invoice) }}" title="Use as template"
+                               class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors text-slate-500 hover:text-slate-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            </a>
                             @if($invoice->pdf_s3_key)
-                                <a href="{{ route('invoices.download', $invoice) }}" title="Download PDF"
+                                <a href="{{ route('dashboard.invoices.download', $invoice) }}" title="Download PDF" target="_blank" rel="noopener"
                                    class="w-8 h-8 rounded-lg bg-accent/10 hover:bg-accent/20 flex items-center justify-center transition-colors text-accent">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                 </a>
                             @endif
-                            <form method="POST" action="{{ route('invoices.destroy', $invoice) }}"
+                            <form method="POST" action="{{ route('dashboard.invoices.destroy', $invoice) }}"
                                   onsubmit="return confirm('Delete {{ $invoice->invoice_number }}?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" title="Delete"
