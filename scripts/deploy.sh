@@ -2,7 +2,7 @@
 set -e
 
 # ---------------------------------------------------------------------------
-# deploy.sh — Deploy handleexception invoices app to EC2
+# deploy.sh — Deploy handleexception app to EC2
 #
 # Usage:
 #   First-time:  ./scripts/deploy.sh --setup
@@ -24,6 +24,8 @@ if [ -z "$REMOTE_HOST" ]; then
 fi
 
 SSH="ssh -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no ubuntu@$REMOTE_HOST"
+SCP="scp -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no"
+RSYNC="rsync -az --delete --exclude='.git' --exclude='node_modules' --exclude='vendor' --exclude='.env' --exclude='storage/logs' --exclude='storage/framework' -e 'ssh -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no'"
 
 echo "==> Deploying to $REMOTE_HOST"
 
@@ -31,11 +33,14 @@ echo "==> Deploying to $REMOTE_HOST"
 # First-time setup
 # ---------------------------------------------------------------------------
 if [ "${1}" = "--setup" ]; then
-  echo "==> [setup] Cloning repo"
-  $SSH "ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null; git clone git@github.com:kylerosspretorius/handleexception.git $APP_DIR || (cd $APP_DIR && git pull)"
+  echo "==> [setup] Creating app directory"
+  $SSH "sudo mkdir -p $APP_DIR && sudo chown ubuntu:ubuntu $APP_DIR"
+
+  echo "==> [setup] Syncing code"
+  eval "$RSYNC . $REMOTE_USER@$REMOTE_HOST:$APP_DIR/"
 
   echo "==> [setup] Copying .env"
-  scp .env "$REMOTE_USER@$REMOTE_HOST:$APP_DIR/.env"
+  $SCP .env "$REMOTE_USER@$REMOTE_HOST:$APP_DIR/.env"
 
   echo "==> [setup] Obtaining TLS certificate (port 80 must be free)"
   $SSH "cd $APP_DIR && $COMPOSE down 2>/dev/null; sudo systemctl stop nginx 2>/dev/null; sudo systemctl disable nginx 2>/dev/null; sudo certbot certonly --standalone -d $DOMAIN --non-interactive --agree-tos -m $EMAIL"
@@ -47,8 +52,11 @@ fi
 # ---------------------------------------------------------------------------
 # Deploy (runs on every call, including after --setup)
 # ---------------------------------------------------------------------------
-echo "==> Pulling latest code"
-$SSH "ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null; cd $APP_DIR && git pull"
+echo "==> Syncing code"
+eval "$RSYNC . $REMOTE_USER@$REMOTE_HOST:$APP_DIR/"
+
+echo "==> Copying .env"
+$SCP .env "$REMOTE_USER@$REMOTE_HOST:$APP_DIR/.env"
 
 echo "==> Building and starting all containers"
 $SSH "cd $APP_DIR && $COMPOSE up -d --build"
