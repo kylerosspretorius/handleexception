@@ -23,7 +23,7 @@ if [ -z "$REMOTE_HOST" ]; then
   exit 1
 fi
 
-SSH="ssh -A -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no ubuntu@$REMOTE_HOST"
+SSH="ssh -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no ubuntu@$REMOTE_HOST"
 
 echo "==> Deploying to $REMOTE_HOST"
 
