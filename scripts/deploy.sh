@@ -25,7 +25,6 @@ fi
 
 SSH="ssh -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no ubuntu@$REMOTE_HOST"
 SCP="scp -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no"
-RSYNC="rsync -az --delete --exclude='.git' --exclude='node_modules' --exclude='vendor' --exclude='.env' --exclude='storage/logs' --exclude='storage/framework' -e 'ssh -i ~/.ssh/id_ed25519_personal -o StrictHostKeyChecking=no'"
 
 echo "==> Deploying to $REMOTE_HOST"
 
@@ -33,11 +32,8 @@ echo "==> Deploying to $REMOTE_HOST"
 # First-time setup
 # ---------------------------------------------------------------------------
 if [ "${1}" = "--setup" ]; then
-  echo "==> [setup] Creating app directory"
-  $SSH "sudo mkdir -p $APP_DIR && sudo chown ubuntu:ubuntu $APP_DIR"
-
-  echo "==> [setup] Syncing code"
-  eval "$RSYNC . $REMOTE_USER@$REMOTE_HOST:$APP_DIR/"
+  echo "==> [setup] Cloning repo"
+  $SSH "ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null; git clone git@github.com:kylerosspretorius/handleexception.git $APP_DIR || (cd $APP_DIR && git pull)"
 
   echo "==> [setup] Copying .env"
   $SCP .env "$REMOTE_USER@$REMOTE_HOST:$APP_DIR/.env"
@@ -52,11 +48,11 @@ fi
 # ---------------------------------------------------------------------------
 # Deploy (runs on every call, including after --setup)
 # ---------------------------------------------------------------------------
-echo "==> Syncing code"
-eval "$RSYNC . $REMOTE_USER@$REMOTE_HOST:$APP_DIR/"
-
 echo "==> Copying .env"
 $SCP .env "$REMOTE_USER@$REMOTE_HOST:$APP_DIR/.env"
+
+echo "==> Pulling latest code"
+$SSH "cd $APP_DIR && git pull"
 
 echo "==> Building and starting all containers"
 $SSH "cd $APP_DIR && $COMPOSE up -d --build"
