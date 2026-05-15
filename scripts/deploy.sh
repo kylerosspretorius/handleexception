@@ -50,11 +50,11 @@ fi
 echo "==> Pulling latest code"
 $SSH "cd $APP_DIR && git pull"
 
-echo "==> Building and restarting app container"
-$SSH "cd $APP_DIR && $COMPOSE up -d --build app"
+echo "==> Building and starting all containers"
+$SSH "cd $APP_DIR && $COMPOSE up -d --build"
 
-echo "==> Ensuring nginx is up"
-$SSH "cd $APP_DIR && $COMPOSE up -d nginx"
+echo "==> Waiting for MySQL to be ready"
+$SSH "cd $APP_DIR && until $COMPOSE exec -T mysql mysqladmin ping -u root -p\${DB_ROOT_PASSWORD:-rootpassword} --silent 2>/dev/null; do echo 'waiting for mysql...'; sleep 3; done"
 
 echo "==> Running migrations"
 $SSH "cd $APP_DIR && $COMPOSE exec -T app php artisan migrate --force"
