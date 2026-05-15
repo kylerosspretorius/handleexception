@@ -10,12 +10,6 @@ variable "domain" {
   default     = "handleexception.com"
 }
 
-variable "subdomain" {
-  description = "Subdomain for the invoice app (e.g. 'invoices' → invoices.handleexception.com)"
-  type        = string
-  default     = "dashboard"
-}
-
 variable "s3_bucket_name" {
   description = "S3 bucket name for invoice PDFs and logos — must be globally unique"
   type        = string

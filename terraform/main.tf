@@ -39,6 +39,5 @@ module "s3" {
 module "dns" {
   source     = "./modules/dns"
   domain     = var.domain
-  subdomain  = var.subdomain
   ip_address = module.ec2.public_ip
 }

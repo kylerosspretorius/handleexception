@@ -1,6 +1,6 @@
 output "app_url" {
-  description = "Public URL of the invoice app"
-  value       = "https://${var.subdomain}.${var.domain}"
+  description = "Public URL of the app"
+  value       = "https://${var.domain}"
 }
 
 output "elastic_ip" {

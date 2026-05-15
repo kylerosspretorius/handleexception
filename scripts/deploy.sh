@@ -13,7 +13,7 @@ REMOTE_USER="ubuntu"
 APP_DIR="/var/www/handleexception"
 COMPOSE="docker compose -f $APP_DIR/docker-compose.yml -f $APP_DIR/docker-compose.prod.yml"
 EMAIL="kyleross.pretorius@gmail.com"
-DOMAIN="dashboard.handleexception.com"
+DOMAIN="handleexception.com"
 
 # Resolve EC2 IP from Terraform output
 REMOTE_HOST=$(cd "$(dirname "$0")/../terraform" && terraform output -raw elastic_ip 2>/dev/null)
