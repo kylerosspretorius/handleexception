@@ -58,7 +58,7 @@ echo "==> Building and starting all containers"
 $SSH "cd $APP_DIR && $COMPOSE up -d --build"
 
 echo "==> Waiting for MySQL to be ready"
-$SSH "cd $APP_DIR && until $COMPOSE exec -T mysql mysqladmin ping -u root -p\${DB_ROOT_PASSWORD:-rootpassword} --silent 2>/dev/null; do echo 'waiting for mysql...'; sleep 3; done"
+$SSH "cd $APP_DIR && for i in \$(seq 1 30); do $COMPOSE exec -T mysql mysql -uroot -p\${DB_ROOT_PASSWORD:-rootpassword} -e 'SELECT 1' >/dev/null 2>&1 && echo 'MySQL ready' && break || echo \"Waiting for MySQL... (\$i/30)\"; sleep 3; done"
 
 echo "==> Running migrations"
 $SSH "cd $APP_DIR && $COMPOSE exec -T app php artisan migrate --force"
