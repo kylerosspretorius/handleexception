@@ -65,7 +65,7 @@ resource "aws_instance" "this" {
   root_block_device {
     volume_type = "gp3"
     # Free tier: 30 GB EBS total. 8 GB leaves headroom for snapshots.
-    volume_size = 8
+    volume_size = 20
   }
 
   user_data = <<-EOF
