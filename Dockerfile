@@ -13,6 +13,11 @@ WORKDIR /var/www/html
 
 COPY . .
 
+# storage/ and bootstrap/cache/ are excluded by .dockerignore, but Laravel needs them to exist
+# (composer's post-install "artisan package:discover" writes to bootstrap/cache).
+RUN mkdir -p bootstrap/cache storage/app/public storage/framework/cache/data \
+        storage/framework/sessions storage/framework/views storage/logs
+
 RUN composer install --optimize-autoloader --no-interaction
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
