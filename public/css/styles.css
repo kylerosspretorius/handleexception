@@ -1403,6 +1403,70 @@ footer {
     border-top: 1px solid var(--border);
 }
 
+/* Featured (full-width) project: image on the left, details on the right */
+.project-card--featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: stretch;
+}
+
+.project-card--featured .project-body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-card--featured .project-body > p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.project-thumb {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    align-self: start;
+    border-radius: calc(var(--radius) - 4px);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 1200 / 630;
+}
+
+.project-thumb img {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.project-card--featured:hover .project-thumb img { transform: scale(1.03); }
+
+.project-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-soon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+    /* The tablet/mobile rules higher up are overridden by the base .projects-grid rule above
+       (it comes later in the file), so the grid never collapsed on phones. Re-apply it here. */
+    .projects-grid { grid-template-columns: minmax(0, 1fr); }
+    .project-card--featured { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ===================================
    Testimonials Section
    =================================== */

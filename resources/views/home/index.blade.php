@@ -584,6 +584,55 @@
                         <span class="tag tag--sm">CI/CD</span>
                     </div>
                 </div>
+                @php
+                    $dragonRushPlay = config('services.dragon_rush.play_url');
+                    $dragonRushStore = config('services.dragon_rush.google_play_url');
+                @endphp
+                <div class="project-card project-card--featured fade-in">
+                    @if ($dragonRushPlay)
+                        <a href="{{ $dragonRushPlay }}" target="_blank" rel="noopener" class="project-thumb">
+                            <img src="{{ asset('images/projects/dragon-rush.jpg') }}" alt="Dragon Rush: a fire dragon flies over a castle at sunset" loading="lazy" width="1200" height="630">
+                        </a>
+                    @else
+                        <div class="project-thumb">
+                            <img src="{{ asset('images/projects/dragon-rush.jpg') }}" alt="Dragon Rush: a fire dragon flies over a castle at sunset" loading="lazy" width="1200" height="630">
+                        </div>
+                    @endif
+                    <div class="project-body">
+                        <div class="project-header">
+                            <div class="project-icons">
+                                <i class="devicon-godot-plain colored"></i>
+                                <i class="devicon-android-plain colored"></i>
+                            </div>
+                            <span class="project-company">Personal Project</span>
+                        </div>
+                        <h3>Dragon Rush: 3D Mobile Game</h3>
+                        <p>A 3D dragon flyer built in Godot. Choose from five dragons with their own elemental powers, burn your way across two acts of a fantasy kingdom, and take on the Dragonslayer.</p>
+                        <ul class="project-results">
+                            <li>Custom shaders for fire, water, lava, wind-blown foliage and stylised terrain</li>
+                            <li>Per-dragon upgrade trees, relics and progression, with procedurally synthesised audio</li>
+                            <li>Optimised for mobile; playable in the browser through WebAssembly</li>
+                        </ul>
+                        <div class="project-ctas">
+                            @if ($dragonRushPlay)
+                                <a href="{{ $dragonRushPlay }}" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Play in browser</a>
+                            @endif
+                            @if ($dragonRushStore)
+                                <a href="{{ $dragonRushStore }}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Get it on Google Play</a>
+                            @endif
+                            @if (! $dragonRushPlay && ! $dragonRushStore)
+                                <span class="project-soon">Playable demo coming soon</span>
+                            @endif
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag tag--sm">Godot</span>
+                            <span class="tag tag--sm">GDScript</span>
+                            <span class="tag tag--sm">Shaders</span>
+                            <span class="tag tag--sm">WebAssembly</span>
+                            <span class="tag tag--sm">Android</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

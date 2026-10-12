@@ -41,4 +41,10 @@ return [
         'redirect'      => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    // Dragon Rush (game project card). Leave the URLs empty to show "coming soon" instead.
+    'dragon_rush' => [
+        'play_url'        => env('DRAGON_RUSH_URL'),
+        'google_play_url' => env('DRAGON_RUSH_GOOGLE_PLAY_URL'),
+    ],
+
 ];
