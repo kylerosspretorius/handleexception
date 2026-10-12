@@ -607,7 +607,7 @@
                             <span class="project-company">Personal Project</span>
                         </div>
                         <h3>Dragon Rush: 3D Mobile Game</h3>
-                        <p>A 3D dragon flyer built in Godot. Choose from five dragons with their own elemental powers, burn your way across two acts of a fantasy kingdom, and take on the Dragonslayer.</p>
+                        <p>Take to the skies in <strong>Dragon Rush</strong>, a fast-paced 3D dragon flyer. Choose from five dragons, each with its own element and power: fire, frost, storm, shadow and stone. Swoop over villages, rivers and frozen peaks, torching towers, dodging arrows and chaining combos for gold. Spend your hoard in the Dragon's Lair on upgrades, unlock each dragon's skill tree, hunt hidden eggs and relics, and battle across two acts to defeat the Dragonslayer. The sky is yours.</p>
                         <ul class="project-results">
                             <li>Custom shaders for fire, water, lava, wind-blown foliage and stylised terrain</li>
                             <li>Per-dragon upgrade trees, relics and progression, with procedurally synthesised audio</li>
